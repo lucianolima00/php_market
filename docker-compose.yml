@@ -1,0 +1,32 @@
+services:
+  db:
+    container_name: market_db
+    image: postgres:16.2
+    restart: unless-stopped
+    hostname: postgres
+    ports:
+      - '5440:5432'
+    volumes:
+      - /var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - market
+  www:
+    container_name: market_app
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+    hostname: app
+    ports:
+      - '8888:80'
+    volumes:
+      - ./:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - market
+networks:
+  market:
+    driver: bridge
