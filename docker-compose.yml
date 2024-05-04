@@ -14,7 +14,9 @@ services:
       - market
   www:
     container_name: market_app
-    build: .
+    build:
+      context: ./server
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       - db
@@ -22,6 +24,7 @@ services:
     ports:
       - '8888:80'
     volumes:
+      - ./server/php-cli.ini:/usr/local/etc/php/conf.d/php-cli.ini
       - ./:/var/www/html
     env_file:
       - .env

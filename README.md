@@ -14,10 +14,13 @@ CONFIGURAÇÃO
 Para utilizar em ambiente de desenvolvimento copie e cole o arquivo [.env-example](./.env-example) renomeando para `.env`  completando as informações, como no exemplo:
 
 ```dotenv
-POSTGRES_DB="market"
-POSTGRES_PASSWORD="123456"
+DB_HOST="localhost"
+DB_PORT="5432"
+DB_USERNAME="postgres"
+DB_PASSWORD="123456"
+DB_NAME="market"
 
-APP_PORT="8080"
+APP_PORT="8888"
 ```
 
 #### OBSERVAÇÕES:
