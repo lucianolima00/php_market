@@ -33,7 +33,7 @@ class Controller
         }
 
         if (substr_count($this->uri, '/') > 1) {
-            list($controller) = array_values(array_filter(explode('/', $this->uri)));
+            [$controller] = array_values(array_filter(explode('/', $this->uri)));
             return ucfirst($controller . 'Controller');
         }
 

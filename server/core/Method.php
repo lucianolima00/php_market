@@ -27,7 +27,7 @@ class Method
     private function getMethod()
     {
         if (substr_count($this->uri, '/') > 1) {
-            list($controller, $method) = array_values(array_filter(explode('/', $this->uri)));
+            [$controller, $method] = array_values(array_filter(explode('/', $this->uri)));
 
             return $method;
         }

@@ -1,15 +1,19 @@
 <?php
 
+use App\core\Method;
+use App\core\Parameter;
+use App\core\Controller;
+
 require "bootstrap.php";
 
 try {
-    $controller = new \App\core\Controller();
+    $controller = new Controller();
     $controller = $controller->load();
 
-    $method = new \App\core\Method();
+    $method = new Method();
     $method = $method->load($controller);
 
-    $parameter = new \App\core\Parameter();
+    $parameter = new Parameter();
     $parameter = $parameter->load();
 
     $controller->$method($parameter);

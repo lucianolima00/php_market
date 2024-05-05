@@ -25,8 +25,8 @@ class Parameter
             $parameter = array_values(array_filter(explode('/', $this->uri)));
 
             return (object)[
-                'parameter' => filter_var($parameter[2], FILTER_SANITIZE_STRING),
-                'next' => filter_var($this->getNextParameter(2), FILTER_SANITIZE_STRING),
+                'first' => filter_var($parameter[2]),
+                'next' => filter_var($this->getNextParameter(2)),
             ];
         }
 
