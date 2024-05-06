@@ -43,6 +43,30 @@ abstract class Model
 
         $query->execute();
 
+        return $query->fetchAll();
+    }
+
+    public function findOne($params)
+    {
+        if (!is_array($params)) {
+            $params = ['id' => $params];
+        }
+
+        $whereClause = "";
+        foreach ($params as $key => $value) {
+            $whereClause .= "$key = :$key, ";
+        }
+        $whereClause = rtrim($whereClause, ", ");
+
+        $sql = "SELECT * FROM {$this->table} WHERE {$whereClause} LIMIT 1";
+        $query = $this->connection->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $query->bindValue(":$key", $value);
+        }
+
+        $query->execute();
+
         return $query->fetch();
     }
 
@@ -88,10 +112,30 @@ abstract class Model
         return $query->rowCount();
     }
 
-    public function delete($id){
-        $sql = "DELETE FROM {$this->table} WHERE id = {$id}";
-        $query = $this->connection->query($sql);
+    public function delete($params){
+        if (((int)$params < 1) || (is_array($params) && empty($params))) {
+            return false;
+        }
 
-        return $query->execute();
+        if (!is_array($params)) {
+            $params = ['id' => $params];
+        }
+
+        $whereClause = "";
+        foreach ($params as $key => $value) {
+            $whereClause .= "$key = :$key AND ";
+        }
+        $whereClause = rtrim($whereClause, " AND ");
+
+        $sql = "DELETE FROM {$this->table} WHERE {$whereClause}";
+        $query = $this->connection->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $query->bindValue(":$key", $value);
+        }
+
+        $query->execute();
+
+        return $query->rowCount();
     }
 }

@@ -20,7 +20,6 @@ class Parameter
 
     private function getParameter()
     {
-
         if (substr_count($this->uri, '/') > 2) {
             $parameter = array_values(array_filter(explode('/', $this->uri)));
 

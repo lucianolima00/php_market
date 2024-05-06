@@ -5,23 +5,21 @@ namespace App\controllers;
 use Exception;
 use App\models\Sale;
 use App\dtos\SaleDto;
+use App\models\SaleProduct;
+use App\dtos\SaleProductDto;
 use App\services\SaleService;
 
 class SaleController
 {
     public function index()
     {
-        $model = new Sale();
-        $sales = $model->all();
-
+        $sales = SaleService::all();
         echo json_encode($sales);
     }
 
     public function show($args)
     {
-        $model = new Sale();
-        $sale = $model->find($args->first);
-
+        $sale = SaleService::one([$args->first, $args->next]);
         echo(json_encode($sale));
     }
 
@@ -32,6 +30,11 @@ class SaleController
     {
         try {
             $request = json_decode(file_get_contents('php://input'), true);
+            if (isset($request['products']) && is_array($request['products'])) {
+                foreach ($request['products'] as $key => $product) {
+                    $request['products'][$key] = SaleProductDto::fromModel($product);
+                }
+            }
 
             $sale = SaleService::store(SaleDto::fromModel($request));
 
@@ -45,6 +48,12 @@ class SaleController
     {
         try {
             $request = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($request['products']) && is_array($request['products'])) {
+                foreach ($request['products'] as $key => $product) {
+                    $request['products'][$key] = SaleProductDto::fromModel($product);
+                }
+            }
 
             $sale = SaleService::update($args->first, SaleDto::fromModel($request));
 
