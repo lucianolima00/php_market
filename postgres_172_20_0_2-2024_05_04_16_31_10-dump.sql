@@ -119,7 +119,7 @@ ALTER SEQUENCE public.sale_id_seq OWNER TO postgres;
 
 CREATE TABLE public.sale (
     id integer DEFAULT nextval('public.sale_id_seq'::regclass) NOT NULL,
-    subject character varying,
+    subject character varying NOT NULL,
     total_value real NOT NULL,
     total_tax real NOT NULL
 );

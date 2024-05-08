@@ -1,22 +1,9 @@
 <?php
 
-use App\core\Method;
-use App\core\Parameter;
-use App\core\Controller;
+use App\App;
 
 require "bootstrap.php";
 
-try {
-    $controller = new Controller();
-    $controller = $controller->load();
+$config = require 'config.php';
 
-    $method = new Method();
-    $method = $method->load($controller);
-
-    $parameter = new Parameter();
-    $parameter = $parameter->load();
-
-    $controller->$method($parameter);
-} catch (\Exception $e) {
-    var_dump($e->getMessage());
-}
+(new App($config))->run();

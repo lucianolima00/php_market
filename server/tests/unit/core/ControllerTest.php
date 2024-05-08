@@ -67,9 +67,6 @@ class ControllerTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $result = $controller->load();
-
-        $expected = new \Exception('Controller does not exist');
-        $this->assertEquals($expected, $result);
+        $controller->load();
     }
 }

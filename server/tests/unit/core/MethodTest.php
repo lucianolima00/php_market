@@ -33,9 +33,6 @@ class MethodTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $result = $method->load($controller);
-
-        $expected = new \Exception('Method approve does not exist');
-        $this->assertEquals($expected, $result);
+        $method->load($controller);
     }
 }

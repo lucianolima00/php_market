@@ -25,7 +25,7 @@ class SaleDto
             throw new InvalidArgumentException("Missing required fields in sale request.");
         }
 
-        if (!is_string($request["subject"]) && $request["subject"] !== null) {
+        if (!is_string($request["subject"])) {
             throw new InvalidArgumentException("Invalid type for 'subject'. Expected string or null.");
         }
 

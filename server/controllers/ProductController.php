@@ -9,18 +9,24 @@ use App\services\ProductService;
 
 class ProductController
 {
+    public function __construct(
+        private ProductService $productService
+    )
+    {
+    }
+
     public function index()
     {
-        $products = ProductService::all();
+        $products = $this->productService->all();
 
-        echo json_encode($products);
+        return json_encode($products);
     }
 
     public function show($args)
     {
-        $product = ProductService::one([$args->first, $args->next]);
+        $product = $this->productService->one([$args->first, $args->next]);
 
-        echo(json_encode($product));
+        return(json_encode($product));
     }
 
     /**
@@ -30,11 +36,12 @@ class ProductController
     {
         try {
             $request = json_decode(file_get_contents('php://input'), true);
-            $product = ProductService::store(ProductDto::fromModel($request));
+            var_dump($request);
+            $product = $this->productService->store(ProductDto::fromModel($request));
 
-            echo json_encode($product);
+            return json_encode($product);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return($e->getMessage());
         }
     }
 
@@ -42,11 +49,11 @@ class ProductController
     {
         try {
             $request = json_decode(file_get_contents('php://input'), true);
-            $product = ProductService::update($args->first, ProductDto::fromModel($request));
+            $product = $this->productService->update($args->first, ProductDto::fromModel($request));
 
-            echo json_encode($product);
+            return json_encode($product);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return($e->getMessage());
         }
     }
 
@@ -56,9 +63,9 @@ class ProductController
             $model = new Product();
             $product = $model->delete($args->first);
 
-            echo json_encode($product);
+            return json_encode($product);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return($e->getMessage());
         }
     }
 }

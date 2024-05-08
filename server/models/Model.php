@@ -3,7 +3,8 @@
 namespace App\models;
 
 use PDO;
-use App\db\Connection;
+use App\App;
+use App\db\DB;
 
 abstract class Model
 {
@@ -11,7 +12,7 @@ abstract class Model
 
     public function __construct()
     {
-        $this->connection = Connection::connect();
+        $this->connection = App::connection();
     }
 
     public function all()
@@ -71,8 +72,8 @@ abstract class Model
     }
 
     public function create($data){
-        if (!is_array($data)) {
-            $data = [$data];
+        if (!is_array($data) || empty($data)) {
+            return false;
         }
 
         $fields = implode(", ", array_keys($data));
@@ -87,9 +88,9 @@ abstract class Model
         return $this->connection->lastInsertId();
     }
 
-    public function update($id,$data){
-        if (!is_array($data)) {
-            $data = [$data];
+    public function update($id, $data){
+        if (!is_array($data) || empty($data)) {
+            return false;
         }
 
         $setClause = "";
@@ -113,7 +114,7 @@ abstract class Model
     }
 
     public function delete($params){
-        if (((int)$params < 1) || (is_array($params) && empty($params))) {
+        if ((is_array($params) && empty($params)) || (!is_array($params) && !is_numeric($params) || (is_numeric($params) && (int)$params < 1))) {
             return false;
         }
 

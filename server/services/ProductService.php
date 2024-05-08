@@ -8,14 +8,14 @@ use App\models\ProductType;
 
 class ProductService
 {
-    public static function all()
+    public function all()
     {
         $model = new Product();
         $products = $model->all();
 
         return $products;
     }
-    public static function one($args)
+    public function one($args)
     {
         $model = new Product();
         $product = $model->findOne($args[0]);
@@ -27,7 +27,7 @@ class ProductService
 
         return $product;
     }
-    public static function store(ProductDto $dto)
+    public function store(ProductDto $dto)
     {
         $product = new Product();
 
@@ -41,7 +41,7 @@ class ProductService
         return $productId;
     }
 
-    public static function update($id, ProductDto $dto)
+    public function update($id, ProductDto $dto)
     {
         $product = new Product();
 
