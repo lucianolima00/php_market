@@ -12,6 +12,7 @@ use App\core\Controller;
 class App
 {
     private static DB $db;
+
     public function __construct(protected array $config)
     {
         static::$db = new DB($this->config);

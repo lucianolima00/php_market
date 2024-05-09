@@ -22,9 +22,26 @@ services:
       - db
     hostname: app
     ports:
-      - '8888:80'
+      - '8888:8888'
     volumes:
       - ./server/php-cli.ini:/usr/local/etc/php/conf.d/php-cli.ini
+      - ./:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - market
+  web:
+    container_name: market_web
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - www
+    hostname: web
+    ports:
+      - '3000:3000'
+    volumes:
       - ./:/var/www/html
     env_file:
       - .env
