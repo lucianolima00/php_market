@@ -35,7 +35,7 @@ class App
             $parameter = new Parameter();
             $parameter = $parameter->load();
 
-            $controller->$method($parameter);
+            echo $controller->$method($parameter);
         } catch (\Exception $e) {
             var_dump($e->getMessage());
         }

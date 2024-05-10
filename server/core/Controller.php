@@ -7,8 +7,10 @@ use App\core\classes\Uri;
 class Controller
 {
     private $uri;
-    private $namespace;
+    private $namespaceController;
     private $controller;
+    private $namespaceService;
+    private $service;
 
     public function __construct()
     {
@@ -41,10 +43,14 @@ class Controller
         if (substr_count($this->uri, '/') > 1) {
             [$controller] = array_values(array_filter(explode('/', $this->uri)));
 
-            return ucfirst($controller . 'Controller');
+            $name = ucfirst($controller);
+            $this->serviceExist($name . 'Service');
+            return $name . 'Controller';
         }
 
-        return ucfirst(ltrim($this->uri, '/')) . 'Controller';
+        $name = ucfirst(ltrim($this->uri, '/'));
+        $this->serviceExist($name . 'Service');
+        return $name. 'Controller';
     }
 
     private function controllerExist($controller)
@@ -52,17 +58,30 @@ class Controller
         $controllerExist = false;
         if (class_exists('App\controllers\\' . $controller)) {
             $controllerExist = true;
-            $this->namespace = 'App\controllers';
+            $this->namespaceController = 'App\controllers';
             $this->controller = $controller;
         }
 
         return $controllerExist;
     }
 
+    private function serviceExist($service)
+    {
+        $serviceExist = false;
+        if (class_exists('App\services\\' . $service)) {
+            $serviceExist = true;
+            $this->namespaceService = 'App\services';
+            $this->service = $service;
+        }
+
+        return $serviceExist;
+    }
+
     private function instantiateController()
     {
-        $controller = $this->namespace . '\\' . $this->controller;
+        $controller = $this->namespaceController . '\\' . $this->controller;
+        $service = $this->namespaceService . '\\' . $this->service;
 
-        return new $controller();
+        return new $controller(new $service());
     }
 }

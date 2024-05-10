@@ -11,16 +11,22 @@ use App\services\SaleService;
 
 class SaleController
 {
+    public function __construct(
+        private SaleService $saleService
+    )
+    {
+    }
+
     public function index()
     {
-        $sales = SaleService::all();
-        echo json_encode($sales);
+        $sales = $this->saleService->all();
+        return json_encode($sales);
     }
 
     public function show($args)
     {
-        $sale = SaleService::one([$args->first, $args->next]);
-        echo(json_encode($sale));
+        $sale = $this->saleService->one([$args->first, $args->next]);
+        return json_encode($sale);
     }
 
     /**
@@ -36,11 +42,11 @@ class SaleController
                 }
             }
 
-            $sale = SaleService::store(SaleDto::fromModel($request));
+            $sale = $this->saleService->store(SaleDto::fromModel($request));
 
-            echo json_encode($sale);
+            return json_encode($sale);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return ($e->getMessage());
         }
     }
 
@@ -55,11 +61,11 @@ class SaleController
                 }
             }
 
-            $sale = SaleService::update($args->first, SaleDto::fromModel($request));
+            $sale = $this->saleService->update($args->first, SaleDto::fromModel($request));
 
-            echo json_encode($sale);
+            return json_encode($sale);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return ($e->getMessage());
         }
     }
 
@@ -68,9 +74,9 @@ class SaleController
         try {
             $model = new Sale();
             $sale = $model->delete($args->first);
-            echo json_encode($sale);
+            return json_encode($sale);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return ($e->getMessage());
         }
     }
 }

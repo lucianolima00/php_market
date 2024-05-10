@@ -9,20 +9,24 @@ use App\services\ProductTypeService;
 
 class ProductTypeController
 {
+    public function __construct(
+        private ProductTypeService $productTypeService
+    )
+    {
+    }
+
     public function index()
     {
-        $model = new ProductType();
-        $products = $model->all();
+        $products = $this->productTypeService->all();
 
-        echo json_encode($products);
+        return  json_encode($products);
     }
 
     public function show($args)
     {
-        $model = new ProductType();
-        $product = $model->find($args->first);
+        $product = $this->productTypeService->one([$args->first, $args->next]);
 
-        echo(json_encode($product));
+        return json_encode($product);
     }
 
     /**
@@ -33,11 +37,11 @@ class ProductTypeController
         try {
             $request = json_decode(file_get_contents('php://input'), true);
 
-            $product = ProductTypeService::store(ProductTypeDto::fromModel($request));
+            $product = $this->productTypeService->store(ProductTypeDto::fromModel($request));
 
-            echo json_encode($product);
+            return  json_encode($product);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return ($e->getMessage());
         }
     }
 
@@ -46,11 +50,11 @@ class ProductTypeController
         try {
             $request = json_decode(file_get_contents('php://input'), true);
 
-            $product = ProductTypeService::update($args->first, ProductTypeDto::fromModel($request));
+            $product = $this->productTypeService->update($args->first, ProductTypeDto::fromModel($request));
 
-            echo json_encode($product);
+            return  json_encode($product);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return ($e->getMessage());
         }
     }
 
@@ -59,9 +63,9 @@ class ProductTypeController
         try {
             $model = new ProductType();
             $product = $model->delete($args->first);
-            echo json_encode($product);
+            return  json_encode($product);
         } catch (\Exception $e) {
-            echo($e->getMessage());
+            return ($e->getMessage());
         }
     }
 }

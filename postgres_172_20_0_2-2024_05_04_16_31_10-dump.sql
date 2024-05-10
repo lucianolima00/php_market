@@ -151,6 +151,7 @@ CREATE TABLE public.sale_product (
     product_id integer NOT NULL,
     quantity real NOT NULL,
     unit_value real NOT NULL,
+    tax real NOT NULL,
     total real NOT NULL
 );
 

@@ -11,10 +11,10 @@ class SaleService
     public static function all()
     {
         $model = new Sale();
-        $sales = $model->all();
 
-        return $sales;
+        return $model->all();
     }
+
     public static function one($args)
     {
         $model = new Sale();
@@ -37,7 +37,7 @@ class SaleService
             $total_tax = 0;
             foreach ($dto->products as $product) {
                 $value = $product->unit_value * $product->quantity;
-                $total_tax += $value * $product->tax;
+                $total_tax += $value * ($product->tax / 100);
                 $total_value += $value;
                 $product->total = $value;
             }

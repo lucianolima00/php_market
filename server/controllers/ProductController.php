@@ -18,7 +18,6 @@ class ProductController
     public function index()
     {
         $products = $this->productService->all();
-
         return json_encode($products);
     }
 

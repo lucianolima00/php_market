@@ -11,10 +11,9 @@ class ProductService
     public function all()
     {
         $model = new Product();
-        $products = $model->all();
-
-        return $products;
+        return $model->all();
     }
+
     public function one($args)
     {
         $model = new Product();
@@ -27,6 +26,7 @@ class ProductService
 
         return $product;
     }
+
     public function store(ProductDto $dto)
     {
         $product = new Product();

@@ -7,6 +7,20 @@ use App\dtos\ProductTypeDto;
 
 class ProductTypeService
 {
+    public static function all()
+    {
+        $model = new ProductType();
+
+        return $model->all();
+    }
+
+    public static function one($args)
+    {
+        $model = new ProductType();
+
+        return $model->findOne($args[0]);
+    }
+
     public static function store(ProductTypeDto $dto)
     {
         $productType = new ProductType();
